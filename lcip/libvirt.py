@@ -15,36 +15,46 @@ from lcip.defaults import LIBVIRT_POOL_DIR
 
 
 class Libvirt:
+    """Libvirt interface"""
 
     def __init__(self, pool, libvirt_url=None):
-        self._connection = libvirt.open(libvirt_url)
+        """initialize connection to libvirt"""
+        self._connection = libvirt.open(libvirt_url) # pylint: disable=maybe-no-member
         self._pool = self._connection.storagePoolLookupByName(pool)
         if self._pool is None:
             raise RuntimeError(f'libvirt storage pool {pool} not found')
 
     def pool_refresh(self):
+        """refresh storage pool"""
         self._pool.refresh()
 
     def define(self, xml):
+        """define libvirt resource from xml"""
         self._connection.defineXML(xml)
 
     def start(self, name):
+        """enable autostart and start domain"""
         domain = self._connection.lookupByName(name)
         domain.setAutostart(True)
         domain.create()
 
     def __del__(self):
+        """ensure connection to libvirt is closed"""
         if self._connection:
-            with suppress(libvirt.libvirtError):
+            with suppress(libvirt.libvirtError): # pylint: disable=maybe-no-member
                 self._connection.close()
 
 
 class LibvirtDomain:
+    """Libvirt domain definition"""
 
     def __init__(self, vmdefinition):
+        """intialize new domain definition"""
         self.vmdefinition = vmdefinition
 
+    # pylint: disable=too-many-arguments
     def _add_element(self, parent, name, attributes=None, text=None, children=None):
+        """simplified interface for adding xml elements"""
         element = ElementTree.Element(name)
         if attributes:
             for attribute, value in attributes.items():
@@ -61,6 +71,7 @@ class LibvirtDomain:
         parent.append(element)
 
     def _interface(self, bridge, vlan=None):
+        """create libvirt interface definition"""
         interface = ElementTree.Element('interface')
         interface.attrib['type'] = 'bridge'
 
@@ -74,6 +85,7 @@ class LibvirtDomain:
         return interface
 
     def _disk(self, source, dev, driver='qcow2', readonly=False):
+        """create libvirt disk definition"""
         disk = ElementTree.Element('disk')
         disk.attrib['type'] = 'file'
         disk.attrib['device'] = 'disk'
@@ -91,14 +103,17 @@ class LibvirtDomain:
 
     @property
     def image(self):
+        """path to domains root disk"""
         return Path(LIBVIRT_POOL_DIR, f'{self.vmdefinition["fqdn"]}-root.qcow2')
 
     @property
     def seed(self):
+        """path to domains seed image"""
         return Path(LIBVIRT_POOL_DIR, f'{self.vmdefinition["fqdn"]}-seed.iso')
 
     @property
     def xml(self):
+        """xml representation of libvirt domain"""
         xml = ElementTree.Element('domain')
         xml.attrib['type'] = 'kvm'
         add_to_domain = partial(self._add_element, xml)

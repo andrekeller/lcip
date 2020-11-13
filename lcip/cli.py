@@ -36,24 +36,23 @@ def provision():
         domain = LibvirtDomain(vmdefinition)
         if domain.seed.is_file():
             raise RuntimeError(f'Volume {domain.seed} already exists')
-        else:
-            copyfile(seed_iso, domain.seed)
-            os.chown(domain.seed, LIBVIRT_VOL_OWNER, LIBVIRT_VOL_GROUP)
-            os.chmod(domain.seed, 0o770)
+        copyfile(seed_iso, domain.seed)
+        os.chown(domain.seed, LIBVIRT_VOL_OWNER, LIBVIRT_VOL_GROUP)
+        os.chmod(domain.seed, 0o770)
+
         if domain.image.is_file():
             raise RuntimeError(f'Volume {domain.image} already exists')
-        else:
-            copyfile(vmdefinition['image'], domain.image)
-            run([
-                TOOLS['qemu-img'],
-                'resize',
-                str(domain.image),
-                f'{vmdefinition["disk"]}G',
-            ], check=True, capture_output=True)
-            os.chown(domain.image, LIBVIRT_VOL_OWNER, LIBVIRT_VOL_GROUP)
-            os.chmod(domain.image, 0o770)
+        copyfile(vmdefinition['image'], domain.image)
+        run([
+            TOOLS['qemu-img'],
+            'resize',
+            str(domain.image),
+            f'{vmdefinition["disk"]}G',
+        ], check=True, capture_output=True)
+        os.chown(domain.image, LIBVIRT_VOL_OWNER, LIBVIRT_VOL_GROUP)
+        os.chmod(domain.image, 0o770)
         libvirt.pool_refresh()
-        libvirt.define(domain.xml)
 
+        libvirt.define(domain.xml)
         if cli_args.start:
             libvirt.start(cli_args.name)

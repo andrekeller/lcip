@@ -4,21 +4,9 @@
 import os
 from pathlib import Path
 from subprocess import run
-from textwrap import dedent
-import yaml
 
 # lcip
 from lcip.defaults import LCIP_WORK_DIR, TOOLS
-
-yaml.SafeDumper.org_represent_str = yaml.SafeDumper.represent_str
-
-def repr_str(dumper, data):
-    """custom string representer that supports multiline values"""
-    if '\n' in data:
-        return dumper.represent_scalar(u'tag:yaml.org,2002:str', data, style='|')
-    return dumper.org_represent_str(data)
-
-yaml.add_representer(str, repr_str, Dumper=yaml.SafeDumper)
 
 
 class CloudInit:
@@ -53,10 +41,12 @@ class CloudInit:
 
     @property
     def networkconfig(self):
+        """rendered networkconfig"""
         return self.vmdefinition['networkconfig_template'].render(self.vmdefinition['network'])
 
     @property
     def userdata(self):
+        """rendered userdata"""
         return self.vmdefinition['userdata_template'].render(
             fqdn=self.vmdefinition['fqdn'],
             host=self.vmdefinition['host'],

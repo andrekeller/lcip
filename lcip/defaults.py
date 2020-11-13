@@ -1,3 +1,5 @@
+"""lcip - configuration defaults"""
+
 from pathlib import Path
 import grp
 import pwd
