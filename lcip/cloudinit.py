@@ -3,7 +3,7 @@
 # stdlib
 import os
 from pathlib import Path
-from subprocess import run
+from subprocess import run, PIPE
 
 # lcip
 from lcip.defaults import LCIP_WORK_DIR, TOOLS
@@ -35,7 +35,7 @@ class CloudInit:
             f'--network-config={str(networkconfig_yaml)}',
             str(seed_iso),
             str(userdata_yaml),
-        ], check=True, capture_output=True)
+        ], check=True, stdout=PIPE, stderr=PIPE)
 
         return seed_iso
 

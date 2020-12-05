@@ -4,8 +4,8 @@ from pathlib import Path
 import grp
 import pwd
 
-LIBVIRT_POOL = 'default'
-LIBVIRT_POOL_DIR = Path('/var/lib/libvirt/images')
+LIBVIRT_POOL = 'hdd'
+LIBVIRT_POOL_DIR = Path('/srv/kvm/hdd')
 LIBVIRT_VOL_OWNER = pwd.getpwnam('libvirt-qemu')[2]
 LIBVIRT_VOL_GROUP = grp.getgrnam('kvm')[2]
 LCIP_CONFIG_DIR = Path('/etc/lcip')

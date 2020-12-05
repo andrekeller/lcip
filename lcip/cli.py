@@ -5,7 +5,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 from shutil import copyfile
-from subprocess import run
+from subprocess import run, PIPE
 import os
 
 # lcip
@@ -48,7 +48,7 @@ def provision():
             'resize',
             str(domain.image),
             f'{vmdefinition["disk"]}G',
-        ], check=True, capture_output=True)
+        ], check=True, stdout=PIPE, stderr=PIPE)
         os.chown(domain.image, LIBVIRT_VOL_OWNER, LIBVIRT_VOL_GROUP)
         os.chmod(domain.image, 0o770)
         libvirt.pool_refresh()

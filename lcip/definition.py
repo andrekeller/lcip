@@ -26,7 +26,8 @@ class DefinitionValidator:
     def validate(self, vmname):
         """validate vmdefinition and return dict with validated options"""
         fqdn_re = re.compile(r'^(?P<fqdn>(?P<host>[^.]+)\.[a-z0-9-]+(?:[a-z0-9-.]+)[^.])$')
-        if fqdn_match := fqdn_re.match(vmname):
+        fqdn_match = fqdn_re.match(vmname)
+        if fqdn_match:
             validated = {
                 'fqdn': fqdn_match.groupdict()['fqdn'],
                 'host': fqdn_match.groupdict()['host'],
@@ -36,9 +37,11 @@ class DefinitionValidator:
 
         with open(Path(LCIP_CONFIG_DIR, 'definitions', f'{vmname}.yaml'), 'r') as vmdefinition:
             vmdef = yaml.load(vmdefinition, Loader=yaml.SafeLoader)
-        if unsupported := set(vmdef.keys()) - self.supported:
+        unsupported = set(vmdef.keys()) - self.supported
+        if unsupported:
             raise ValueError(f'invalid option(s) in vmdefinition: {unsupported}')
-        if missing := self.mandatory - set(vmdef.keys()):
+        missing = self.mandatory - set(vmdef.keys())
+        if missing:
             raise ValueError(f'missing option(s) in vmdefinition: {missing}')
 
         for option, value in vmdef.items():
@@ -146,9 +149,11 @@ class DefinitionValidator:
         supported = mandatory | optional
 
 
-        if unsupported := set(network.keys()) - supported:
+        unsupported = set(network.keys()) - supported
+        if unsupported:
             raise ValueError(f'invalid option(s) for network: {unsupported}')
-        if missing := mandatory - set(network.keys()):
+        missing = mandatory - set(network.keys())
+        if missing:
             raise ValueError(f'missing option(s) for network: {missing}')
 
         if not isinstance(network['ovs_bridge'], str):
@@ -160,7 +165,8 @@ class DefinitionValidator:
                     and isinstance(network['ovs_vlan'], int)
                     and MIN_VLAN <= network['ovs_vlan'] <= MAX_VLAN):
                 validated['ovs_vlan'] = network['ovs_vlan']
-            raise ValueError(f'{network["ovs_valn"]} is not a valid ovs_vlan')
+            else:
+                raise ValueError(f'{network["ovs_vlan"]} is not a valid ovs_vlan')
 
         validated['address4'] = ipaddress.IPv4Interface(network['address4'])
 
