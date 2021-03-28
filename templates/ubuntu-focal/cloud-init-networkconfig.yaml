@@ -1,0 +1,17 @@
+version: 2
+ethernets:
+  ens3:
+    addresses:
+    - {{ address4 }}
+{% if address6 %}
+    - {{ address6 }}
+{% endif %}
+    gateway4: {{ gateway4 }}
+{% if gateway6 %}
+    gateway6: {{ gateway6 }}
+{% endif %}
+    nameservers:
+      addresses:
+{% for address in nameservers %}
+      - {{ address }}
+{% endfor %}
