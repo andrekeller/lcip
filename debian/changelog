@@ -1,3 +1,9 @@
+lcip (1.0.2) focal; urgency=medium
+
+  * Fix template install directory 
+
+ -- André Keller <ak@0x2a.io>  Sun, 28 Mar 2021 13:48:09 +0000
+
 lcip (1.0.1) focal; urgency=medium
 
   * Add templates 
