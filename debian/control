@@ -7,11 +7,7 @@ Standards-Version: 4.5.0
 
 Package: lcip
 Architecture: all
-Depends: cloud-image-utils,
-         python3-libvirt,
-         qemu-utils,
-         ${misc:Depends},
-         ${python3:Depends}
+Depends: cloud-image-utils, qemu-utils, ${misc:Depends}, ${python3:Depends}
 Description: LibVirt/cloud-init provisioner
  Generate libvirt domain configuration and cloud-init seed iso
  for local provisioing of virtual machines using cloud images

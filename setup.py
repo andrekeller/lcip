@@ -33,7 +33,7 @@ setup(
     },
     install_requires=[
         'jinja2',
-        'libvirt',
+        'libvirt_python',
     ],
     packages=find_packages(),
     url='https://github.com/andrekeller/lcip',
