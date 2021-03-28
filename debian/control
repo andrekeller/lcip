@@ -1,0 +1,17 @@
+Source: lcip
+Maintainer: André Keller <ak@0x2a.io>
+Section: python
+Priority: optional
+Build-Depends: debhelper (>= 12), dh-python, python3-all, python3-setuptools
+Standards-Version: 4.5.0
+
+Package: lcip
+Architecture: all
+Depends: cloud-image-utils,
+         python3-libvirt,
+         qemu-utils,
+         ${misc:Depends},
+         ${python3:Depends}
+Description: LibVirt/cloud-init provisioner
+ Generate libvirt domain configuration and cloud-init seed iso
+ for local provisioing of virtual machines using cloud images

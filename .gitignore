@@ -1,0 +1,13 @@
+*.pyc
+__pycache__/
+
+# packaging
+/.pybuild/
+/debian/.debhelper/
+/debian/debhelper-build-stamp
+/debian/files
+/debian/lcip.postinst.debhelper
+/debian/lcip.prerm.debhelper
+/debian/lcip.substvars
+/debian/lcip/
+/lcip.egg-info/
