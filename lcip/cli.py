@@ -38,10 +38,20 @@ def provision():
 
         if domain.image.is_file():
             raise RuntimeError(f'Volume {domain.image} already exists')
-        copyfile(vmdefinition['image'], domain.image)
+        run([
+            TOOLS['qemu-img'],
+            'convert',
+            '-f', 'qcow2',
+            '-O', 'raw',
+            '-o', 'preallocation=falloc',
+            vmdefinition['image'],
+            domain.image
+        ], check=True, capture_output=True)
         run([
             TOOLS['qemu-img'],
             'resize',
+            '-f', 'raw',
+            '--preallocation=falloc',
             str(domain.image),
             f'{vmdefinition["disk"]}G',
         ], check=True, capture_output=True)

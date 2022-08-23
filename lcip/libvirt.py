@@ -84,7 +84,7 @@ class LibvirtDomain:
             add_to_interface('vlan', children={'tag': {'attributes': {'id': str(vlan)}}})
         return interface
 
-    def _disk(self, source, dev, driver='qcow2', readonly=False):
+    def _disk(self, source, dev, driver='raw', readonly=False):
         """create libvirt disk definition"""
         disk = ElementTree.Element('disk')
         disk.attrib['type'] = 'file'
@@ -104,7 +104,7 @@ class LibvirtDomain:
     @property
     def image(self):
         """path to domains root disk"""
-        return Path(LIBVIRT_POOL_DIR, f'{self.vmdefinition["fqdn"]}-root.qcow2')
+        return Path(LIBVIRT_POOL_DIR, f'{self.vmdefinition["fqdn"]}-root.img')
 
     @property
     def seed(self):
