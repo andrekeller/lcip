@@ -1,3 +1,10 @@
+lcip (1.1.0) focal; urgency=medium
+
+  * Add Ubuntu 22.04 template
+  * Switch from Qcow2 to Raw images
+
+ -- André Keller <ak@0x2a.io>  Tue, 23 Aug 2022 16:56:14 +0000
+
 lcip (1.0.4) focal; urgency=medium
 
   * Use correct gpg key in ubuntu-focal template 
