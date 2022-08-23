@@ -18,10 +18,6 @@ from lcip.libvirt import Libvirt, LibvirtDomain
 def provision():
     """generate cloud-init configuration and provision a new VM"""
 
-    for tool, path in TOOLS.items():
-        if not Path(path).is_file():
-            raise RuntimeError(f'External tool {tool} not found in {path}')
-
     parser = ArgumentParser()
     parser.add_argument('name')
     parser.add_argument('--no-provision', action='store_false', dest='provision', default=True)
