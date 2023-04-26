@@ -123,6 +123,9 @@ class LibvirtDomain:
         add_to_domain('on_poweroff', text='destroy')
         add_to_domain('on_reboot', text='restart')
 
+        add_to_domain('cpu', attributes={'mode': 'host-model', 'check': 'partial'}, children={
+            'feature': {'attributes': {'policy': 'disable', 'name': 'vmx'}},
+        })
         add_to_domain('vcpu', text=str(self.vmdefinition['cpu']))
         add_to_domain('memory', attributes={'unit': 'MiB'}, text=str(self.vmdefinition['memory']))
         add_to_domain('memoryBacking', children={'hugepages': {}})

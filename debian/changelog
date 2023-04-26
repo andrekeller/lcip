@@ -1,3 +1,9 @@
+lcip (1.2.0) jammy; urgency=medium
+
+  * Switch to cpu host-model
+
+ -- André Keller <ak@0x2a.io>  Wed, 26 Apr 2023 09:30:35 +0000
+
 lcip (1.1.0) focal; urgency=medium
 
   * Add Ubuntu 22.04 template
