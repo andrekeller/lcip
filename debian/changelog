@@ -1,3 +1,9 @@
+lcip (1.1.0+noble) noble; urgency=medium
+
+  * Rebuild for Ubuntu 24.04 
+
+ -- André Keller <ak@0x2a.io>  Tue, 31 Dec 2024 10:33:32 +0100
+
 lcip (1.1.0) focal; urgency=medium
 
   * Add Ubuntu 22.04 template
